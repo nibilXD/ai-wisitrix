@@ -1,44 +1,42 @@
 Wisitrix AI
 
-Wisitrix AI is an advanced AI-powered chatbot designed to provide intelligent and natural interactions. Built using state-of-the-art AI models, Wisitrix AI offers users seamless conversation experiences.
-
-🚀 Features
-
-Smart Conversations – Provides intelligent and context-aware responses.
-
-Case-Insensitive Recognition – Works with both uppercase and lowercase input.
-
-Predefined Responses – Instant answers for frequently asked questions.
-
-AI-Powered Responses – Uses API-based AI models for dynamic conversation.
-
-Special Character Handling – Filters out unnecessary characters for better understanding.
 
 
-🛠️ Technologies Used
+🚀 Introduction
 
-Frontend: HTML, CSS, JavaScript
+Wisitrix AI is an advanced AI chatbot designed to provide intelligent and conversational assistance. Built with cutting-edge machine learning models, Wisitrix AI can answer questions, provide insights, and interact naturally with users.
 
-AI Model: Mistral-7B (via OpenRouter API)
+🌟 Features
 
-API: OpenRouter AI Chat API
+✨ Natural language understanding
+
+🔍 Accurate responses based on AI models
+
+⚡ Fast and efficient API integration
+
+🔄 Continuous learning and improvements
+
+🎨 Sleek, modern UI for an enhanced user experience
 
 
-📌 Installation & Setup
+🛠️ Installation
 
-1. Clone the repository:
+Clone the repository:
 
 git clone https://github.com/yourusername/wisitrix-ai.git
 cd wisitrix-ai
 
+Install dependencies:
 
-2. Open index.html in your browser to run Wisitrix AI.
+npm install
 
+Run the development server:
 
+npm start
 
-⚙️ Configuration
+📡 API Integration
 
-To use the AI-powered responses, replace the API key in script.js:
+Wisitrix AI is powered by OpenRouter API. To connect your AI model, configure the API key in your project:
 
 const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -52,57 +50,52 @@ const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     })
 });
 
-Replace YOUR_API_KEY with your actual OpenRouter API key.
+Replace YOUR_API_KEY with your actual API key.
 
-🧠 How It Works
-
-1. User Input Handling:
-
-Converts input to lowercase.
-
-Removes special characters.
-
-Checks predefined responses.
+🎨 UI Preview
 
 
 
-2. AI API Interaction:
+🔥 How to Use
 
-If no predefined response exists, it calls the OpenRouter API.
-
-Fetches a dynamic response and displays it in the chat.
+1. Open Wisitrix AI in your browser.
 
 
+2. Type your query in the input box.
 
-3. Smooth UI/UX:
 
-Displays "Wisitrix AI is thinking..." while fetching responses.
-
-Provides a user-friendly chat interface.
+3. Press send and get instant responses.
 
 
 
+❓ Frequently Asked Questions
 
-📌 Example Questions Wisitrix AI Can Answer
+Who developed Wisitrix AI?
 
-"Who is Nibil Krishna?"
+Wisitrix AI was developed by Nibil Krishna, a tech enthusiast and space researcher.
 
-"What is Wisitrix AI?"
+What is Wisitrix?
 
-"Who developed you?"
+Wisitrix is an innovative AI-powered chatbot project designed to provide human-like conversational experiences.
 
-"Do you know about Wisitrix?"
+Does Wisitrix AI support case sensitivity?
+
+No, Wisitrix AI processes inputs in a case-insensitive manner, ensuring seamless interaction regardless of capitalization.
+
+Can I host Wisitrix AI on my own server?
+
+Yes! You can deploy it using Vercel, GitHub Pages, or any cloud service of your choice.
+
+📜 License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+💡 Contributing
+
+We welcome contributions! Feel free to fork the repository and submit a pull request.
 
 
-🛡️ License
+---
 
-This project is licensed under the MIT License. Feel free to modify and contribute!
-
-🌟 Contributing
-
-Contributions are welcome! Fork the repo, create a new branch, and submit a pull request.
-
-📬 Contact
-
-For any questions or collaborations, reach out to Nibil Krishna.
+Made with ❤️ by Nibil Krishna and the Wisitrix AI Team.
 
