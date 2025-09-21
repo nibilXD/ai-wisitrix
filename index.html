@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisitrix AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            color: #333;
+            padding-top: 70px;
+            text-align: center;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 60px;
+            padding: 0 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .logo img { height: 35px; }
+        .nav-icons { display: flex; gap: 12px; }
+        .icon {
+            width: 35px; height: 35px;
+            display: flex; align-items: center; justify-content: center;
+            background: #eeeeee;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .icon:hover { background: #dddddd; }
+        .chat-box {
+            max-width: 600px;
+            padding: 15px;
+            margin: auto;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hello-dev {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            margin: 40px 0 10px 0;
+            background: linear-gradient(45deg, #FF3CAC, #784BA0, #2B86C5);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGradient 3s infinite alternate;
+        }
+        .sub-text {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .message-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            overflow-y: auto;
+            max-height: 60vh;
+            padding-bottom: 60px;
+        }
+        .message {
+            max-width: 75%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            font-size: 15px;
+            word-wrap: break-word;
+        }
+        .user-msg {
+            background: #007bff;
+            color: white;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .ai-msg {
+            background: #f1f1f1;
+            color: #333;
+            align-self: flex-start;
+            text-align: left;
+        }
+        .chat-input {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 30px;
+            padding: 12px 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ddd;
+        }
+        .chat-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+        }
+        .send-btn { border: none; background: none; cursor: pointer; padding-left: 10px; }
+        .send-btn img { width: 24px; height: 24px; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo"><img src="logo.png" alt="Wisitrix AI"></div>
+        <div class="nav-icons">
+            <div class="icon" onclick="resetChat()"><i class="fas fa-plus"></i></div>
+        </div>
+    </header>
+
+    <div class="chat-box" id="chatBox">
+        <h2 class="hello-dev">Hello, Dev</h2>
+        <p class="sub-text">How can I help you today?</p>
+        <div class="message-container" id="messageContainer"></div>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button class="send-btn" onclick="sendMessage()"><img src="send.png" alt="Send"></button>
+    </div>
+
+<script>
+    const messageContainer = document.getElementById("messageContainer");
+    const input = document.getElementById("chatInput");
+
+    // Load history
+    window.onload = () => {
+        let saved = localStorage.getItem("chatHistory");
+        if (saved) messageContainer.innerHTML = saved;
+    };
+    function saveHistory() {
+        localStorage.setItem("chatHistory", messageContainer.innerHTML);
+    }
+
+    async function sendMessage() {
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, "user-msg");
+        input.value = "";
+
+        let thinking = addMessage("...", "ai-msg");
+
+        try {
+            const res = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text })
+            });
+            const data = await res.json();
+
+            thinking.remove();
+            addMessage(data.reply, "ai-msg");
+        } catch (err) {
+            thinking.textContent = "⚠️ Error fetching response";
+        }
+    }
+
+    function addMessage(text, type) {
+        let div = document.createElement("div");
+        div.classList.add("message", type);
+        div.textContent = text;
+        messageContainer.appendChild(div);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+        saveHistory();
+        return div;
+    }
+
+    function resetChat() {
+        messageContainer.innerHTML = "";
+        localStorage.removeItem("chatHistory");
+    }
+
+    // Enter to send
+    input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+</script>
+</body>
+</html>
